@@ -13,6 +13,22 @@ program farmville {
  	game.addVisualCharacter(hector)
  	game.addVisualIn(new Maiz(), game.at(1, 1))
  	
+ 	keyboard.m().onPressDo {
+ 		game.addVisualIn(new Maiz(), (hector.position()))
+ 	}
+ 	
+ 	keyboard.t().onPressDo {
+ 		game.addVisualIn(new Trigo(), (hector.position()))
+ 	}
+ 	
+ 	keyboard.o().onPressDo {
+ 		game.addVisualIn(new Tomaco(), (hector.position()))
+ 	}
+ 	
+ 	keyboard.r().onPressDo {
+ 		game.addVisualIn(new Tomaco(), (hector.position()))
+ 	}
+ 	
  	//  COMIENZA
 	game.start()
 }
