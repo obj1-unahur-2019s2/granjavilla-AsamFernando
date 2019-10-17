@@ -1,16 +1,31 @@
+import wollok.game.*
+import hector.*
+
+
 class Maiz {
+	var property position
 	var regado=false
+	
 	method image() {
 		if(regado) { return "corn_adult.png" }
-		else { return "tomaco.png"}
+		else { return "corn_baby.png"}
 	}
 	method regar() {
-		regado=true
+			regado=true
 	}
+	method cosechar() {
+		if(regado) {
+			game.removeVisual(self)
+		}
+		else{ game.say(hector, "no regate lo maice") }
+	}
+	method valor() { return 150 }
 }
 
 class Trigo {
+	var property position
 	var etapa=0
+	
 	method image() {
 		if(etapa==0) { return "wheat_0.png" }
 		else if(etapa==1) { return "wheat_1.png" }
@@ -22,15 +37,70 @@ class Trigo {
 		if (etapa>3) { etapa=0 } 
 		else{ etapa+=1 }
 	}
+	method cosechar() {
+		if(etapa>=2) {
+			game.removeVisual(self)
+		}
+		else{ game.say(hector, "no regaste lo suficiente el trigo") }
+	}
+	method valor() { if(etapa==2) { return 100 } else { return (etapa - 1)*100 } }
 }
 
 class Tomaco {
-	var regado=false
+	var property position
+	
 	method image() {
-		if(regado) { return "tomaco.png" }
-		else { return "tomaco_baby.png"}
+		return "tomaco.png"
 	}
 	method regar() {
-		regado=true	
+		if(self.position().y() < game.height() - 1) {
+			self.position(self.position().up(1))
+		}
+		else {
+			self.position(new Position(x=self.position().x(), y=0))
+		}
+	}
+	method cosechar() {
+			game.removeVisual(self)
+	}
+	method valor() { return 80 }
+}
+
+class Market {
+	var property position=new Position(x= 0.randomUpTo(game.width() - 1), y= 0.randomUpTo(game.height() - 1))
+	var property plantasCompradas = []
+	var property dinero
+	
+	method comprarUnaPlanta(planta) {
+		plantasCompradas.add(planta)
+	}
+	
+	method image() { return "market.png" }
+	
+	method puedeComprarPlantas() {
+		return hector.valorTotalCosechadas()<=self.dinero()
+	}
+	method comprarPlantas() {
+			hector.cosechadas().forEach{ planta => self.comprarUnaPlanta(planta) }
+			plantasCompradas.forEach{ planta => dinero-=planta.valor() }
 	}
 }
+	
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

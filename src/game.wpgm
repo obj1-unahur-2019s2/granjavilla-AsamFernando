@@ -10,25 +10,48 @@ program farmville {
 	game.ground("ground.png")
 
 	//  VISUALES
+ 	game.addVisualIn(new Market(dinero=500), game.at(4, 4))
+ 	game.addVisualIn(new Market(dinero=1000), game.at(7, 7))
+ 	game.addVisualIn(new Market(dinero=800), game.at(1, 6))
  	game.addVisualCharacter(hector)
- 	game.addVisualIn(new Maiz(), game.at(1, 1))
  	
  	keyboard.m().onPressDo {
- 		game.addVisualIn(new Maiz(), (hector.position()))
+ 		hector.plantarMaiz()
  	}
  	
  	keyboard.t().onPressDo {
- 		game.addVisualIn(new Trigo(), (hector.position()))
+		hector.plantarTrigo()
  	}
  	
- 	keyboard.o().onPressDo {
- 		game.addVisualIn(new Tomaco(), (hector.position()))
+ 	keyboard.q().onPressDo {
+ 		hector.plantarTomaco()
+ 	}
+ 	
+ 	keyboard.p().onPressDo {
+ 		game.say(hector, "mi posicion es: " + hector.position())
  	}
  	
  	keyboard.r().onPressDo {
- 		game.addVisualIn(new Tomaco(), (hector.position()))
+ 		if(game.getObjectsIn(hector.position()).size()>1) {
+ 			game.getObjectsIn(hector.position()).forEach{planta => planta.regar()}
+ 		}
+ 		else { game.say(hector, "no tengo planta para regar") }
  	}
  	
+ 	keyboard.c().onPressDo {
+ 		hector.cosecharPlantas()
+ 	}
+ 	keyboard.l().onPressDo {
+ 		game.say(hector, "coseché " + hector.mostrarCantidadCosechadas() + " plantas")
+ 	}
+ 	
+ 	keyboard.v().onPressDo {
+ 		hector.venderPlantas()
+ 	}
+ 	
+ 	keyboard.space().onPressDo {
+ 		game.say(hector, "tengo " + hector.dinero() + " monedas y " + hector.mostrarCantidadCosechadas() + " plantas para vender")
+ 	}
  	//  COMIENZA
 	game.start()
 }
