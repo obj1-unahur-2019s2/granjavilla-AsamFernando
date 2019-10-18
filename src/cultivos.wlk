@@ -81,26 +81,6 @@ class Market {
 		return hector.valorTotalCosechadas()<=self.dinero()
 	}
 	method comprarPlantas() {
-			hector.cosechadas().forEach{ planta => self.comprarUnaPlanta(planta) }
-			plantasCompradas.forEach{ planta => dinero-=planta.valor() }
+			hector.cosechadas().forEach{ planta => self.comprarUnaPlanta(planta) dinero-=planta.valor() }
 	}
 }
-	
-	
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
