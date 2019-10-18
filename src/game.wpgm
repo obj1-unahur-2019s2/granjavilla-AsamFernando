@@ -32,10 +32,7 @@ program farmville {
  	}
  	
  	keyboard.r().onPressDo {
- 		if(game.getObjectsIn(hector.position()).size()>1) {
- 			game.getObjectsIn(hector.position()).forEach{planta => planta.regar()}
- 		}
- 		else { game.say(hector, "no tengo planta para regar") }
+ 		hector.regarPlantas()
  	}
  	
  	keyboard.c().onPressDo {
@@ -46,7 +43,12 @@ program farmville {
  	}
  	
  	keyboard.v().onPressDo {
- 		hector.venderPlantas()
+ 		if(hector.estaEnMercado()) {
+ 			hector.venderPlantas()
+ 		}
+ 		else {
+ 			game.say(hector, "no estoy en un mercado")
+ 		}
  	}
  	
  	keyboard.space().onPressDo {
